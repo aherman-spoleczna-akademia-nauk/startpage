@@ -337,7 +337,10 @@ body {
   font-family: var(--font-display);
   font-size: 1.3rem;
   font-weight: 600;
-  margin-bottom: 5px;
+  /* Miejsce na "ogonki" liter (j, y, ą) – gradient tekstu jest przycinany do pola */
+  line-height: 1.4;
+  padding-bottom: 0.15em;
+  margin-bottom: 10px;
   background: linear-gradient(90deg, var(--accent-color), #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
