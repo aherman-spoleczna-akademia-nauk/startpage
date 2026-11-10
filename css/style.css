@@ -542,7 +542,7 @@ button.weather-widget {
 
 /* Dyskretna nazwa lokalizacji pod opisem pogody */
 .weather-location {
-  margin-top: 3px;
+  margin-top: 8px;
   font-size: 0.72rem;
   color: var(--text-muted);
   white-space: nowrap;
