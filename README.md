@@ -115,7 +115,8 @@ Tekst powitania zmienisz w `index.html`, w elementach `<title>` i `.greeting`.
 | Biblioteka | Zastosowanie |
 | --- | --- |
 | [Font Awesome 6](https://fontawesome.com/) | Ikony (wyszukiwarka, pogoda) |
-| [Unbounded](https://fonts.google.com/specimen/Unbounded) | Czcionka zegara i powitania |
+| [Unbounded](https://fonts.google.com/specimen/Unbounded) | Czcionka zegara |
+| [Playfair Display](https://fonts.google.com/specimen/Playfair+Display) | Czcionka powitania (kursywa) |
 | [Manrope](https://fonts.google.com/specimen/Manrope) | Czcionka reszty strony |
 | [Open-Meteo API](https://open-meteo.com/) | Dane pogodowe |
 | [BigDataCloud](https://www.bigdatacloud.com/free-api/free-reverse-geocode-to-city-api) | Nazwa miejscowości ze współrzędnych |

@@ -12,8 +12,10 @@
   --icon-color: #a5b4fc;
   --icon-color-hover: #ffffff;
   --font-main: "Manrope", sans-serif;
-  /* Wyrazista czcionka zegara i powitania */
+  /* Wyrazista czcionka zegara */
   --font-display: "Unbounded", sans-serif;
+  /* Elegancka kursywa powitania */
+  --font-greeting: "Playfair Display", serif;
   /* Zdefiniowanie głębszego cienia dla efektu 'pop-out' */
   --card-shadow:
     0 15px 35px 0 rgba(0, 0, 0, 0.65),
@@ -334,17 +336,19 @@ body {
 }
 
 .greeting {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 600;
-  /* Miejsce na "ogonki" liter (j, y, ą) – gradient tekstu jest przycinany do pola */
+  font-family: var(--font-greeting);
+  font-style: italic;
+  font-size: 1.7rem;
+  font-weight: 700;
+  /* Miejsce na "ogonki" liter (j, y, ą) i pochylenie kursywy –
+     gradient tekstu jest przycinany do pola */
   line-height: 1.4;
   padding-bottom: 0.15em;
-  margin-bottom: 10px;
+  padding-right: 0.15em;
+  margin-bottom: 6px;
   background: linear-gradient(90deg, var(--accent-color), #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.5px;
 }
 
 
