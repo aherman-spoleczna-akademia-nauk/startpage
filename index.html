@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cześć Andrzej !</title>
+    <title>Cześć, Andrzej!</title>
     <link rel="icon" type="image/png" href="img/icon.png" />
     <!-- Ikony -->
     <link
@@ -17,6 +17,8 @@
     />
 
     <link rel="stylesheet" href="css/style.css" />
+    <!-- Tryb jasny/ciemny – musi być w <head>, żeby nie było mignięcia -->
+    <script src="js/theme.js"></script>
   </head>
 
   <body>
@@ -26,26 +28,54 @@
       <div class="aurora-blob aurora-blob--2"></div>
       <div class="aurora-blob aurora-blob--3"></div>
       <div class="aurora-blob aurora-blob--4"></div>
+      <!-- Plama podążająca za kursorem -->
+      <div class="aurora-blob aurora-blob--cursor" id="aurora-cursor"></div>
     </div>
 
     <div class="container">
       <header class="header-section">
         <div class="time-widget">
-          <div class="greeting">Cześć Andrzej !</div>
+          <div class="greeting" id="greeting">Cześć, Andrzej!</div>
           <div class="clock" id="clock">00:00</div>
           <div class="date" id="date">Ładowanie daty...</div>
         </div>
 
-        <div class="weather-widget" id="weather-widget">
+        <button
+          type="button"
+          class="weather-widget"
+          id="weather-widget"
+          aria-expanded="false"
+          aria-controls="weather-panel"
+          title="Pokaż prognozę"
+        >
           <i class="fas fa-spinner fa-spin weather-icon" id="weather-icon"></i>
-          <div class="weather-info">
+          <span class="weather-info">
             <span class="temperature" id="temp">--°C</span>
             <span class="weather-desc" id="weather-desc"
               >Pobieranie pogody...</span
             >
-          </div>
-        </div>
+          </span>
+          <i class="fas fa-chevron-down weather-chevron" aria-hidden="true"></i>
+        </button>
       </header>
+
+      <!-- Rozwijana prognoza pogody -->
+      <section
+        class="weather-panel"
+        id="weather-panel"
+        aria-label="Prognoza pogody"
+        hidden
+      >
+        <div class="weather-details" id="weather-details"></div>
+        <div>
+          <h3 class="weather-panel-title">Najbliższe godziny</h3>
+          <div class="weather-hourly" id="weather-hourly"></div>
+        </div>
+        <div>
+          <h3 class="weather-panel-title">Kolejne dni</h3>
+          <div class="weather-daily" id="weather-daily"></div>
+        </div>
+      </section>
 
       <div class="search-container">
         <i class="fas fa-search search-icon"></i>
@@ -77,37 +107,37 @@
 
         <!-- R -->
         <a href="https://r.pl/" class="link-card" target="_blank">
-          <div class="letters">RT</div>
+          <i class="card-icon fa-solid fa-plane" aria-hidden="true"></i>
           <span class="name">Rainbow</span>
         </a>
 
         <!-- Gemini -->
         <a href="https://gemini.google.com" class="link-card" target="_blank">
-          <div class="letters">GE</div>
+          <span class="card-icon si-googlegemini" aria-hidden="true"></span>
           <span class="name">Gemini</span>
         </a>
 
         <!-- YouTube -->
         <a href="https://youtube.com" class="link-card" target="_blank">
-          <div class="letters">YT</div>
+          <span class="card-icon si-youtube" aria-hidden="true"></span>
           <span class="name">YouTube</span>
         </a>
 
         <!-- Gmail -->
         <a href="https://mail.google.com" class="link-card" target="_blank">
-          <div class="letters">GM</div>
+          <span class="card-icon si-gmail" aria-hidden="true"></span>
           <span class="name">Gmail</span>
         </a>
 
         <!-- Mapy -->
         <a href="https://maps.google.com" class="link-card" target="_blank">
-          <div class="letters">MA</div>
+          <span class="card-icon si-googlemaps" aria-hidden="true"></span>
           <span class="name">Mapy</span>
         </a>
 
         <!-- Google Drive -->
         <a href="https://drive.google.com/" class="link-card" target="_blank">
-          <div class="letters">GD</div>
+          <span class="card-icon si-googledrive" aria-hidden="true"></span>
           <span class="name">Google Drive</span>
         </a>
 
@@ -117,31 +147,31 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">HT</div>
+          <span class="card-icon si-hetzner" aria-hidden="true"></span>
           <span class="name">Hetzner</span>
         </a>
 
         <!-- Cloudflare -->
         <a href="https://dash.cloudflare.com/" class="link-card" target="_blank">
-          <div class="letters">CF</div>
+          <span class="card-icon si-cloudflare" aria-hidden="true"></span>
           <span class="name">Cloudflare</span>
         </a>
 
         <!-- Home.pl -->
         <a href="https://home.pl" class="link-card" target="_blank">
-          <div class="letters">HO</div>
+          <i class="card-icon fa-solid fa-globe" aria-hidden="true"></i>
           <span class="name">Home.pl</span>
         </a>
 
         <!-- GitHub -->
         <a href="https://github.com" class="link-card" target="_blank">
-          <div class="letters">GH</div>
+          <span class="card-icon si-github" aria-hidden="true"></span>
           <span class="name">GitHub</span>
         </a>
 
         <!-- Netflix -->
         <a href="https://netflix.com" class="link-card" target="_blank">
-          <div class="letters">NT</div>
+          <span class="card-icon si-netflix" aria-hidden="true"></span>
           <span class="name">Netflix</span>
         </a>
 
@@ -151,19 +181,19 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">CP</div>
+          <i class="card-icon fa-solid fa-tv" aria-hidden="true"></i>
           <span class="name">Canal Plus</span>
         </a>
 
         <!-- Prime -->
         <a href="https://www.primevideo.com/" class="link-card" target="_blank">
-          <div class="letters">PR</div>
+          <i class="card-icon fa-brands fa-amazon" aria-hidden="true"></i>
           <span class="name">Prime Video</span>
         </a>
 
         <!-- SkyShowtime -->
         <a href="https://www.skyshowtime.com/" class="link-card" target="_blank">
-          <div class="letters">SK</div>
+          <i class="card-icon fa-solid fa-film" aria-hidden="true"></i>
           <span class="name">Skyshowtime</span>
         </a>
 
@@ -173,7 +203,7 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">WD</div>
+          <i class="card-icon fa-solid fa-graduation-cap" aria-hidden="true"></i>
           <span class="name">Dziekanat</span>
         </a>
 
@@ -183,7 +213,7 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">PZ</div>
+          <i class="card-icon fa-solid fa-calendar-days" aria-hidden="true"></i>
           <span class="name">Plan zajęć</span>
         </a>
 
@@ -193,13 +223,13 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">AZ</div>
+          <i class="card-icon fa-brands fa-microsoft" aria-hidden="true"></i>
           <span class="name">Azure</span>
         </a>
 
         <!-- Allegro -->
         <a href="https://allegro.pl" class="link-card" target="_blank">
-          <div class="letters">AL</div>
+          <i class="card-icon fa-solid fa-bag-shopping" aria-hidden="true"></i>
           <span class="name">Allegro</span>
         </a>
 
@@ -209,25 +239,25 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">PL</div>
+          <i class="card-icon fa-solid fa-mobile-screen" aria-hidden="true"></i>
           <span class="name">Plus</span>
         </a>
 
         <!-- Onet -->
         <a href="https://www.onet.pl/" class="link-card" target="_blank">
-          <div class="letters">ON</div>
+          <i class="card-icon fa-solid fa-newspaper" aria-hidden="true"></i>
           <span class="name">Onet</span>
         </a>
 
         <!-- Pobieracz -->
         <a href="https://app.ytdown.to/pl34/" class="link-card" target="_blank">
-          <div class="letters">PB</div>
+          <i class="card-icon fa-solid fa-download" aria-hidden="true"></i>
           <span class="name">Pobieracz</span>
         </a>
 
         <!-- Flashscore -->
         <a href="https://www.flashscore.pl/" class="link-card" target="_blank">
-          <div class="letters">FS</div>
+          <i class="card-icon fa-solid fa-futbol" aria-hidden="true"></i>
           <span class="name">Flashscore</span>
         </a>
 
@@ -237,12 +267,26 @@
           class="link-card"
           target="_blank"
         >
-          <div class="letters">OR</div>
+          <i class="card-icon fa-solid fa-tower-cell" aria-hidden="true"></i>
           <span class="name">Orange</span>
         </a>
       </div>
 
-      <div class="footer">Andrzej Herman @ Strona startowa</div>
+      <footer class="footer">
+        <div class="theme-switch" role="group" aria-label="Tryb kolorów">
+          <button type="button" class="theme-option" data-theme-value="light">
+            <i class="fa-solid fa-sun" aria-hidden="true"></i>Jasny
+          </button>
+          <button type="button" class="theme-option" data-theme-value="dark">
+            <i class="fa-solid fa-moon" aria-hidden="true"></i>Ciemny
+          </button>
+          <button type="button" class="theme-option" data-theme-value="auto">
+            <i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i
+            >Auto
+          </button>
+        </div>
+        <div>Andrzej Herman @ Strona startowa</div>
+      </footer>
     </div>
 
     <script src="js/script.js"></script>

@@ -8,11 +8,122 @@
   --accent-color: #6366f1;
   /* Indigo */
   --accent-glow: rgba(99, 102, 241, 0.4);
+  /* Kolor ikon w kafelkach */
+  --icon-color: #a5b4fc;
+  --icon-color-hover: #ffffff;
   --font-main: "Inter", sans-serif;
   /* Zdefiniowanie głębszego cienia dla efektu 'pop-out' */
   --card-shadow:
     0 15px 35px 0 rgba(0, 0, 0, 0.65),
     inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  --card-shadow-hover:
+    0 25px 50px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(99, 102, 241, 0.4);
+  --text-hover: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --search-focus-bg: rgba(46, 46, 72, 0.92);
+  --subtle-bg: rgba(255, 255, 255, 0.05);
+  --subtle-border: rgba(255, 255, 255, 0.06);
+  --scrollbar: rgba(255, 255, 255, 0.2);
+  --precip-color: #7dd3fc;
+  --icon-glow: rgba(129, 140, 248, 0.35);
+  --clock-gradient: linear-gradient(to right, #fff, #a5b4fc);
+  --clock-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --featured-tint: linear-gradient(
+    145deg,
+    rgba(236, 72, 153, 0.35),
+    rgba(249, 115, 22, 0.25)
+  );
+  --featured-text: #fbcfe8;
+  color-scheme: dark;
+}
+
+/* --- TRYB JASNY --- */
+/* Ustawiany przez js/theme.js (atrybut data-theme na <html>) */
+:root[data-theme="light"] {
+  --bg-color: #f3f2fa;
+  --card-bg: rgba(255, 255, 255, 0.72);
+  --card-border: rgba(30, 27, 75, 0.1);
+  --text-primary: #1e1b4b;
+  --text-secondary: #57557a;
+  --accent-color: #6366f1;
+  --accent-glow: rgba(99, 102, 241, 0.18);
+  --icon-color: #5b5fe0;
+  --icon-color-hover: #312e81;
+  --card-shadow:
+    0 10px 30px rgba(30, 27, 75, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --card-shadow-hover:
+    0 20px 40px rgba(30, 27, 75, 0.16),
+    0 0 20px rgba(99, 102, 241, 0.2);
+  --text-hover: #1e1b4b;
+  --text-muted: rgba(30, 27, 75, 0.45);
+  --search-focus-bg: rgba(255, 255, 255, 0.95);
+  --subtle-bg: rgba(99, 102, 241, 0.06);
+  --subtle-border: rgba(99, 102, 241, 0.1);
+  --scrollbar: rgba(30, 27, 75, 0.2);
+  --precip-color: #0284c7;
+  --icon-glow: rgba(99, 102, 241, 0.15);
+  --clock-gradient: linear-gradient(to right, #1e1b4b, #6366f1);
+  --clock-shadow: 0 8px 24px rgba(99, 102, 241, 0.12);
+  --featured-tint: linear-gradient(
+    145deg,
+    rgba(236, 72, 153, 0.2),
+    rgba(249, 115, 22, 0.14)
+  );
+  --featured-text: #be185d;
+  color-scheme: light;
+}
+
+/* Zorza w jasnym trybie: pastelowe plamy na złamanej bieli */
+:root[data-theme="light"] .aurora-blob {
+  mix-blend-mode: multiply;
+}
+
+/* Pastele są blade, więc plamy są mniej przezroczyste (bez plamy za kursorem) */
+:root[data-theme="light"] .aurora-blob:not(.aurora-blob--cursor) {
+  opacity: 0.85;
+}
+
+:root[data-theme="light"] .aurora-blob--1 {
+  background: #c7d2fe;
+}
+
+:root[data-theme="light"] .aurora-blob--2 {
+  background: #fbcfe8;
+}
+
+:root[data-theme="light"] .aurora-blob--3 {
+  background: #fed7aa;
+}
+
+:root[data-theme="light"] .aurora-blob--4 {
+  background: #ddd6fe;
+}
+
+:root[data-theme="light"] .aurora-blob--cursor {
+  background: linear-gradient(135deg, #c7d2fe, #fbcfe8);
+}
+
+:root[data-theme="light"] .aurora::after {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(243, 242, 250, 0) 0%,
+    rgba(243, 242, 250, 0.45) 100%
+  );
+}
+
+/* Płynne przejście przy zmianie trybu (klasę dodaje js/theme.js na chwilę) */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.4s ease,
+    background 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease !important;
 }
 
 * {
@@ -92,6 +203,21 @@ body {
   animation: auroraDrift4 28s ease-in-out infinite alternate;
 }
 
+/* Plama podążająca za kursorem – pozycję ustawia js/script.js */
+.aurora-blob--cursor {
+  width: 30vmax;
+  height: 30vmax;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #818cf8, #ec4899);
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.aurora-blob--cursor.is-active {
+  opacity: 0.4;
+}
+
 /* Delikatne przyciemnienie od góry i dołu – zawartość lepiej się odcina */
 .aurora::after {
   content: "";
@@ -164,10 +290,10 @@ body {
   font-weight: 700;
   letter-spacing: -2px;
   line-height: 1;
-  background: linear-gradient(to right, #fff, #a5b4fc);
+  background: var(--clock-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  text-shadow: var(--clock-shadow);
 }
 
 .date {
@@ -186,6 +312,7 @@ body {
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
 }
+
 
 .weather-widget {
   background: var(--card-bg);
@@ -208,6 +335,177 @@ body {
   border-color: var(--accent-color);
   box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
   /* Znacznie głębszy cień */
+}
+
+/* Widżet pogody jest przyciskiem – reset domyślnego wyglądu */
+button.weather-widget {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.weather-widget:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 3px;
+}
+
+.weather-chevron {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: transform 0.3s ease;
+}
+
+.weather-widget[aria-expanded="true"] .weather-chevron {
+  transform: rotate(180deg);
+}
+
+/* --- PANEL PROGNOZY --- */
+.weather-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 22px 24px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: panelIn 0.35s ease-out;
+}
+
+.weather-panel[hidden] {
+  display: none;
+}
+
+.weather-panel-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.weather-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.weather-details i {
+  color: var(--accent-color);
+  margin-right: 6px;
+}
+
+.weather-details strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.weather-hourly {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+
+.hour,
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border-radius: 14px;
+  background: var(--subtle-bg);
+  border: 1px solid var(--subtle-border);
+}
+
+.hour {
+  flex: 0 0 66px;
+  padding: 10px 0;
+  font-size: 0.85rem;
+}
+
+.hour-time {
+  color: var(--text-secondary);
+}
+
+.hour i {
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+.hour-temp {
+  font-weight: 600;
+}
+
+.precip {
+  font-size: 0.75rem;
+  color: var(--precip-color);
+}
+
+/* Kropla ma rozmiar tekstu, a nie dużej ikony pogody */
+.hour .precip i,
+.day .precip i {
+  font-size: inherit;
+  color: inherit;
+  margin: 0;
+}
+
+.weather-daily {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.day {
+  padding: 14px 8px;
+  text-align: center;
+}
+
+.day-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.day i {
+  font-size: 1.7rem;
+  color: var(--accent-color);
+  margin: 4px 0;
+}
+
+.day-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.day-min {
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+@media (max-width: 480px) {
+  .weather-daily {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .weather-icon {
@@ -244,7 +542,7 @@ body {
   background: var(--card-bg);
   backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
-  color: white;
+  color: var(--text-primary);
   font-size: 1.1rem;
   font-family: var(--font-main);
   outline: none;
@@ -265,7 +563,7 @@ body {
 }
 
 .search-bar:focus {
-  background: rgba(46, 46, 72, 0.92);
+  background: var(--search-focus-bg);
   border-color: var(--accent-color);
   box-shadow: 0 0 25px var(--accent-glow);
 }
@@ -320,9 +618,7 @@ body {
   /* Wyższe uniesienie */
   border-color: var(--accent-color);
   /* Bardzo głęboki cień i poświata przy najechaniu */
-  box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(99, 102, 241, 0.4);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .link-card:hover::before {
@@ -338,22 +634,54 @@ body {
 }
 
 .link-card:hover span {
-  color: white;
+  color: var(--text-hover);
 }
 
-.link-card .card-logo {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-  margin-bottom: 10px;
-  z-index: 1;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  transition: transform 0.3s ease;
+/* --- IKONY KAFELKÓW (jeden kolor) --- */
+/* Dwa źródła: Font Awesome (<i class="card-icon fa-...">)
+   oraz logo marek z Simple Icons (<span class="card-icon si-...">) */
+.link-card .card-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  font-size: 28px;
+  color: var(--icon-color);
+  filter: drop-shadow(0 0 10px var(--icon-glow));
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease,
+    background-color 0.3s ease;
 }
 
-.link-card:hover .card-logo {
+/* Logo marek: plik SVG służy jako maska, a kolor daje tło */
+.link-card .card-icon[class*="si-"] {
+  background-color: var(--icon-color);
+  -webkit-mask: var(--icon) center / 30px no-repeat;
+  mask: var(--icon) center / 30px no-repeat;
+}
+
+.link-card:hover .card-icon {
   transform: scale(1.1);
+  color: var(--icon-color-hover);
 }
+
+.link-card:hover .card-icon[class*="si-"] {
+  background-color: var(--icon-color-hover);
+}
+
+/* Adresy logo marek (Simple Icons, przypięta wersja) */
+.si-googlegemini { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/googlegemini.svg"); }
+.si-youtube { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/youtube.svg"); }
+.si-gmail { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/gmail.svg"); }
+.si-googlemaps { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/googlemaps.svg"); }
+.si-googledrive { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/googledrive.svg"); }
+.si-hetzner { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/hetzner.svg"); }
+.si-cloudflare { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/cloudflare.svg"); }
+.si-github { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/github.svg"); }
+.si-netflix { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/netflix.svg"); }
 
 .link-card .letters {
   height: 44px;
@@ -384,9 +712,7 @@ body {
 
 /* --- WYRÓŻNIONY KAFELEK (Lena) --- */
 .link-card--featured {
-  background:
-    linear-gradient(145deg, rgba(236, 72, 153, 0.35), rgba(249, 115, 22, 0.25)),
-    var(--card-bg);
+  background: var(--featured-tint), var(--card-bg);
   border: 2px solid #ec4899;
   animation: featuredPulse 2.5s ease-in-out infinite;
 }
@@ -407,15 +733,16 @@ body {
   transition: transform 0.3s ease;
 }
 
-.link-card--featured span {
-  color: #fbcfe8;
+.link-card--featured span,
+.link-card--featured:hover span {
+  color: var(--featured-text);
 }
 
 .link-card--featured:hover {
   border-color: #f97316;
   animation: none;
   box-shadow:
-    0 25px 50px rgba(0, 0, 0, 0.6),
+    var(--card-shadow-hover),
     0 0 35px rgba(236, 72, 153, 0.8);
 }
 
@@ -442,12 +769,62 @@ body {
 
 .footer {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
   text-align: center;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.4);
+  color: var(--text-muted);
   width: 100%;
   font-weight: 300;
   letter-spacing: 0.5px;
+}
+
+/* --- PRZEŁĄCZNIK TRYBU --- */
+.theme-switch {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
+.theme-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.theme-option:hover {
+  color: var(--text-primary);
+}
+
+.theme-option:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.theme-option[aria-pressed="true"] {
+  background: var(--accent-color);
+  color: #ffffff;
+  box-shadow: 0 4px 14px var(--accent-glow);
 }
 
 /* Responsive */
