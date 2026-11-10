@@ -11,8 +11,8 @@ function getGreeting(hour) {
   return "Dobrej nocy";
 }
 
-function updateGreeting(now) {
-  const text = `${getGreeting(now.getHours())}, ${NAME}!`;
+function updateGreeting(hour) {
+  const text = `${getGreeting(hour)}, ${NAME}!`;
   const el = document.getElementById("greeting");
   if (el.textContent !== text) {
     el.textContent = text;
@@ -21,25 +21,64 @@ function updateGreeting(now) {
 }
 
 /* --- ZEGAR --- */
+/* Strefa czasowa lokalizacji (np. "Europe/Moscow"), ustawiana po pobraniu pogody.
+   undefined = strefa czasowa systemu. */
+let displayTimeZone;
+
+function setDisplayTimeZone(timeZone) {
+  if (timeZone === displayTimeZone) return;
+  try {
+    new Intl.DateTimeFormat("pl-PL", { timeZone }); // sprawdzenie poprawności strefy
+  } catch {
+    return; // Nieznana strefa – zostaje czas systemowy
+  }
+  displayTimeZone = timeZone;
+  updateTime();
+}
+
 function updateTime() {
   const now = new Date();
-  const timeString = now.toLocaleTimeString("pl-PL", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-  document.getElementById("clock").textContent = timeString;
+  const timeZone = displayTimeZone;
 
-  const options = {
+  document.getElementById("clock").textContent = now.toLocaleTimeString(
+    "pl-PL",
+    { hour: "2-digit", minute: "2-digit", timeZone },
+  );
+
+  const dateString = now.toLocaleDateString("pl-PL", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
-  };
-  const dateString = now.toLocaleDateString("pl-PL", options);
+    timeZone,
+  });
   document.getElementById("date").textContent =
     dateString.charAt(0).toUpperCase() + dateString.slice(1);
 
-  updateGreeting(now);
+  const hour = Number(
+    new Intl.DateTimeFormat("pl-PL", {
+      hour: "numeric",
+      hourCycle: "h23",
+      timeZone,
+    }).format(now),
+  );
+  updateGreeting(hour);
+  updateTimeZoneLabel(now, timeZone);
+}
+
+/* Nazwa strefy czasowej pod zegarem, np. "czas środkowoeuropejski · GMT+1" */
+function timeZonePart(now, timeZone, style) {
+  return new Intl.DateTimeFormat("pl-PL", { timeZone, timeZoneName: style })
+    .formatToParts(now)
+    .find((part) => part.type === "timeZoneName")?.value;
+}
+
+function updateTimeZoneLabel(now, timeZone) {
+  const name = timeZonePart(now, timeZone, "longGeneric");
+  const offset = timeZonePart(now, timeZone, "shortOffset");
+  const text = [name, offset].filter(Boolean).join(" · ");
+  const el = document.getElementById("timezone");
+  if (el.textContent !== text) el.textContent = text;
 }
 
 setInterval(updateTime, 1000);
@@ -254,6 +293,9 @@ function hasMoved(a, b) {
 async function setLocation(location) {
   currentLocation = location;
   renderLocation(location);
+  // Zapamiętana strefa czasowa – zegar od razu w czasie lokalizacji
+  if (!location.isDefault && location.timeZone)
+    setDisplayTimeZone(location.timeZone);
   await fetchWeather();
 }
 
@@ -299,6 +341,15 @@ async function fetchWeather() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     if (requestId !== weatherRequestId) return;
+
+    // Zegar w strefie czasowej lokalizacji (przy lokalizacji domyślnej – czas systemu)
+    if (!currentLocation.isDefault && data.timezone) {
+      setDisplayTimeZone(data.timezone);
+      if (currentLocation.timeZone !== data.timezone) {
+        currentLocation.timeZone = data.timezone;
+        saveLocation(currentLocation);
+      }
+    }
 
     renderCurrent(data.current);
     renderDetails(data.current, data.daily);

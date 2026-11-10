@@ -18,7 +18,7 @@ Prosta strona startowa przeglądarki w ciemnym stylu, z zegarem, pogodą, wyszuk
 ## Funkcje
 
 - 👋 **Powitanie zależne od pory dnia** – „Dzień dobry”, „Miłego popołudnia”, „Dobry wieczór” albo „Dobrej nocy”.
-- 🕒 **Zegar i data** – aktualizowane co sekundę, w formacie polskim (`pl-PL`).
+- 🕒 **Zegar i data** – aktualizowane co sekundę, w formacie polskim (`pl-PL`), w strefie czasowej Twojej lokalizacji (np. w Tokio pokażą czas tokijski). Bez zgody na lokalizację – czas systemowy.
 - 🌤️ **Pogoda** – aktualna temperatura z [Open-Meteo](https://open-meteo.com/) dla Twojej lokalizacji, której nazwa wyświetla się pod opisem pogody. Bez zgody na lokalizację pokazuje pogodę dla Łodzi. Po kliknięciu rozwija się panel z temperaturą odczuwalną, wilgotnością, wiatrem, wschodem i zachodem słońca, prognozą na 12 godzin i na 4 dni. Nie wymaga klucza API i odświeża się co 30 minut.
 - 🔍 **Wyszukiwarka Google** – zapytanie otwiera się w nowej karcie.
 - 🔗 **Kafelki z linkami** – siatka skrótów z jednokolorowymi ikonami: logo marek z [Simple Icons](https://simpleicons.org/) albo pasujące ikony z Font Awesome.

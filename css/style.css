@@ -307,6 +307,19 @@ body {
   text-shadow: var(--clock-shadow);
 }
 
+/* Subtelna nazwa strefy czasowej pod zegarem */
+.timezone {
+  margin-top: 6px;
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+}
+
+.timezone:empty {
+  display: none;
+}
+
 .date {
   font-size: 1.2rem;
   color: var(--text-secondary);
