@@ -1,5 +1,3 @@
-const NAME = "Andrzej";
-
 /* Lokalizacja zapasowa, gdy przeglądarka nie poda swojej (brak zgody lub błąd) */
 const DEFAULT_LOCATION = {
   lat: 51.75,
@@ -7,23 +5,6 @@ const DEFAULT_LOCATION = {
   name: "Łódź",
   country: "Polska",
 };
-
-/* --- POWITANIE ZALEŻNE OD PORY DNIA --- */
-function getGreeting(hour) {
-  if (hour >= 5 && hour < 12) return "Dzień dobry";
-  if (hour >= 12 && hour < 18) return "Miłego popołudnia";
-  if (hour >= 18 && hour < 22) return "Dobry wieczór";
-  return "Dobrej nocy";
-}
-
-function updateGreeting(hour) {
-  const text = `${getGreeting(hour)}, ${NAME}!`;
-  const el = document.getElementById("greeting");
-  if (el.textContent !== text) {
-    el.textContent = text;
-    document.title = text;
-  }
-}
 
 /* --- ZEGAR --- */
 /* Strefa czasowa lokalizacji (np. "Europe/Moscow"), ustawiana po pobraniu pogody.
@@ -63,14 +44,6 @@ function updateTime() {
   document.getElementById("date").textContent =
     dateString.charAt(0).toUpperCase() + dateString.slice(1);
 
-  const hour = Number(
-    new Intl.DateTimeFormat("pl-PL", {
-      hour: "numeric",
-      hourCycle: "h23",
-      timeZone,
-    }).format(now),
-  );
-  updateGreeting(hour);
   updateTimeZoneLabel(now, timeZone);
 }
 

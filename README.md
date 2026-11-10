@@ -17,7 +17,6 @@ Prosta strona startowa przeglądarki w ciemnym stylu, z zegarem, pogodą, wyszuk
 
 ## Funkcje
 
-- 👋 **Powitanie zależne od pory dnia** – „Dzień dobry”, „Miłego popołudnia”, „Dobry wieczór” albo „Dobrej nocy”.
 - 🕒 **Zegar i data** – aktualizowane co sekundę, w formacie polskim (`pl-PL`), w strefie czasowej Twojej lokalizacji (np. w Tokio pokażą czas tokijski). Bez zgody na lokalizację – czas systemowy.
 - 🌤️ **Pogoda** – aktualna temperatura z [Open-Meteo](https://open-meteo.com/) dla Twojej lokalizacji, której nazwa wyświetla się pod opisem pogody. Bez zgody na lokalizację pokazuje pogodę dla Łodzi. Po kliknięciu rozwija się panel z temperaturą odczuwalną, wilgotnością, wiatrem, wschodem i zachodem słońca, prognozą na 12 godzin i na 4 dni. Nie wymaga klucza API i odświeża się co 30 minut.
 - 🔍 **Wyszukiwarka Google** – zapytanie otwiera się w nowej karcie.
@@ -35,7 +34,7 @@ startpage/
 │   └── style.css   # Wygląd, kolory, animacje, responsywność
 ├── js/
 │   ├── theme.js    # Tryb jasny / ciemny / auto (ładowany w <head>)
-│   └── script.js   # Powitanie, zegar, pogoda, zorza za kursorem
+│   └── script.js   # Zegar, pogoda, lokalizacja, zorza za kursorem
 └── img/
     └── icon.png    # Favicon
 ```
@@ -79,13 +78,12 @@ Ikonę wybierasz na dwa sposoby:
 
 Kolor wszystkich ikon ustawiają zmienne `--icon-color` i `--icon-color-hover` w `css/style.css`. Wyróżniony kafelek (`link-card--featured`) ma różowo-pomarańczowe kolory, a jego ikona dostaje gradient, poświatę i animację „bicia serca”.
 
-### Imię i lokalizacja zapasowa
+### Lokalizacja zapasowa
 
-Pogoda pobiera się dla Twojej lokalizacji (przeglądarka zapyta o zgodę przy pierwszym wejściu). Na początku `js/script.js` możesz zmienić imię w powitaniu oraz lokalizację zapasową, używaną bez zgody na lokalizację:
+Pogoda pobiera się dla Twojej lokalizacji (przeglądarka zapyta o zgodę przy pierwszym wejściu). Na początku `js/script.js` możesz zmienić lokalizację zapasową, używaną bez zgody na lokalizację:
 
 ```js
-const NAME = "Andrzej";
-const DEFAULT_LOCATION = { lat: 51.75, lon: 19.47, name: "Łódź" };
+const DEFAULT_LOCATION = { lat: 51.75, lon: 19.47, name: "Łódź", country: "Polska" };
 ```
 
 ### Kolory
@@ -106,9 +104,7 @@ Kolory, rozmiary i tempo zorzy w tle ustawia się w `css/style.css`, w klasach `
 
 Kafelek można wyróżnić, dodając mu klasę `link-card--featured`.
 
-### Powitanie
-
-Tekst powitania zmienisz w `index.html`, w elementach `<title>` i `.greeting`.
+Tytuł karty przeglądarki zmienisz w `index.html`, w elemencie `<title>`.
 
 ## Wykorzystane biblioteki
 
@@ -116,7 +112,6 @@ Tekst powitania zmienisz w `index.html`, w elementach `<title>` i `.greeting`.
 | --- | --- |
 | [Font Awesome 6](https://fontawesome.com/) | Ikony (wyszukiwarka, pogoda) |
 | [Unbounded](https://fonts.google.com/specimen/Unbounded) | Czcionka zegara |
-| [Playfair Display](https://fonts.google.com/specimen/Playfair+Display) | Czcionka powitania (kursywa) |
 | [Manrope](https://fonts.google.com/specimen/Manrope) | Czcionka reszty strony |
 | [Open-Meteo API](https://open-meteo.com/) | Dane pogodowe |
 | [BigDataCloud](https://www.bigdatacloud.com/free-api/free-reverse-geocode-to-city-api) | Nazwa miejscowości ze współrzędnych |
