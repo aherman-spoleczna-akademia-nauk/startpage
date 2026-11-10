@@ -4,7 +4,7 @@
 
 # Strona startowa
 
-Prosta strona startowa przeglądarki w ciemnym stylu, z zegarem, pogodą, wyszukiwarką i kafelkami ulubionych stron.
+Strona startowa przeglądarki z zegarem, pogodą dla Twojej lokalizacji, szybką wyszukiwarką i kafelkami ulubionych stron – w trybie ciemnym i jasnym.
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
@@ -13,13 +13,28 @@ Prosta strona startowa przeglądarki w ciemnym stylu, z zegarem, pogodą, wyszuk
 
 </div>
 
+<table>
+  <tr>
+    <td><img src="img/screenshot-dark.webp" alt="Strona startowa w trybie ciemnym" /></td>
+    <td><img src="img/screenshot-light.webp" alt="Strona startowa w trybie jasnym" /></td>
+  </tr>
+  <tr>
+    <td align="center"><sub>Tryb ciemny</sub></td>
+    <td align="center"><sub>Tryb jasny</sub></td>
+  </tr>
+</table>
+
 ---
 
 ## Funkcje
 
 - 🕒 **Zegar i data** – aktualizowane co sekundę, w formacie polskim (`pl-PL`), w strefie czasowej Twojej lokalizacji (np. w Tokio pokażą czas tokijski). Bez zgody na lokalizację – czas systemowy.
 - 🌤️ **Pogoda** – aktualna temperatura z [Open-Meteo](https://open-meteo.com/) dla Twojej lokalizacji, której nazwa wyświetla się pod opisem pogody. Bez zgody na lokalizację pokazuje pogodę dla Łodzi. Po kliknięciu rozwija się panel z temperaturą odczuwalną, wilgotnością, wiatrem, wschodem i zachodem słońca, prognozą na 12 godzin i na 4 dni. Nie wymaga klucza API i odświeża się co 30 minut.
-- 🔍 **Wyszukiwarka Google** – zapytanie otwiera się w nowej karcie.
+- 🔍 **Szybka wyszukiwarka** – wyniki otwierają się w nowej karcie:
+  - <kbd>/</kbd> z dowolnego miejsca ustawia kursor w wyszukiwarce, <kbd>Esc</kbd> czyści pole,
+  - podczas pisania podświetlają się pasujące kafelki, a <kbd>Enter</kbd> otwiera pierwszy z nich (wielkość liter i polskie znaki nie mają znaczenia),
+  - <kbd>Shift</kbd>+<kbd>Enter</kbd> zawsze szuka w Google,
+  - prefiksy kierują zapytanie do innego serwisu: `yt` YouTube, `al` Allegro, `m` Mapy Google, `gh` GitHub, `w` Wikipedia, `tl` Tłumacz Google (np. `yt koncert chopina`).
 - 🔗 **Kafelki z linkami** – siatka skrótów z jednokolorowymi ikonami: logo marek z [Simple Icons](https://simpleicons.org/) albo pasujące ikony z Font Awesome.
 - ✨ **Animowane tło** – „zorza” z rozmytych, powoli przepływających plam koloru, w czystym CSS (bez WebGL). Jedna plama powoli podąża za kursorem.
 - 🌗 **Tryb jasny i ciemny** – przełącznik *Jasny / Ciemny / Auto* na dole strony. *Auto* podąża za ustawieniem systemu, a wybór jest zapamiętywany w przeglądarce.
@@ -34,9 +49,11 @@ startpage/
 │   └── style.css   # Wygląd, kolory, animacje, responsywność
 ├── js/
 │   ├── theme.js    # Tryb jasny / ciemny / auto (ładowany w <head>)
-│   └── script.js   # Zegar, pogoda, lokalizacja, zorza za kursorem
+│   ├── script.js   # Zegar, pogoda, lokalizacja, zorza za kursorem
+│   └── search.js   # Wyszukiwarka: prefiksy, filtrowanie kafelków, skróty
 └── img/
-    └── icon.png    # Favicon
+    ├── icon.png    # Favicon
+    └── screenshot-*.webp  # Zrzuty ekranu do README
 ```
 
 ## Uruchomienie

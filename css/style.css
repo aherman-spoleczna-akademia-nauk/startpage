@@ -556,7 +556,6 @@ button.weather-widget {
 .weather-desc {
   font-size: 0.9rem;
   color: var(--text-secondary);
-  text-transform: capitalize;
 }
 
 /* Dyskretna nazwa lokalizacji pod opisem pogody */
@@ -614,6 +613,104 @@ button.weather-widget {
   background: var(--search-focus-bg);
   border-color: var(--accent-color);
   box-shadow: 0 0 25px var(--accent-glow);
+}
+
+#search-form {
+  position: relative;
+}
+
+/* Miejsce na plakietkę serwisu po prawej */
+.search-container.has-engine .search-bar {
+  padding-right: 150px;
+}
+
+/* Plakietka serwisu, np. "YouTube", gdy wpisano prefiks "yt " */
+.search-engine {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--accent-color);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  pointer-events: none;
+  box-shadow: 0 4px 14px var(--accent-glow);
+  animation: panelIn 0.2s ease-out;
+}
+
+.search-engine[hidden] {
+  display: none;
+}
+
+/* Podpowiedź pod wyszukiwarką – pojawia się tylko podczas pisania */
+.search-hint {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 18px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: var(--search-focus-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  backdrop-filter: blur(16px);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s;
+}
+
+/* Widoczna, gdy pole jest aktywne i puste – po wpisaniu znika i nie zasłania kafelków */
+.search-container:focus-within:has(.search-bar:placeholder-shown) .search-hint {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.search-hint b {
+  color: var(--text-primary);
+}
+
+.search-hint kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  margin-right: 2px;
+  border-radius: 5px;
+  border: 1px solid var(--card-border);
+  background: var(--subtle-bg);
+  font-family: var(--font-main);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Filtrowanie kafelków podczas pisania */
+.links-grid.is-filtering .link-card:not(.is-match) {
+  opacity: 0.3;
+  filter: grayscale(1);
+  transform: scale(0.96);
+}
+
+/* Kafelek, który otworzy Enter */
+.links-grid .link-card.is-first {
+  border-color: var(--accent-color);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow:
+    var(--card-shadow-hover),
+    0 0 0 2px var(--accent-color);
 }
 
 /* --- LINKS GRID --- */

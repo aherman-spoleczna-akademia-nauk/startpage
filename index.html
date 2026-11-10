@@ -81,21 +81,38 @@
         </div>
       </section>
 
-      <div class="search-container">
-        <i class="fas fa-search search-icon"></i>
+      <div class="search-container" id="search-container">
+        <i class="fas fa-search search-icon" aria-hidden="true"></i>
         <form
+          id="search-form"
           action="https://www.google.com/search"
           method="get"
           target="_blank"
+          role="search"
         >
           <input
             type="text"
             name="q"
+            id="search-input"
             class="search-bar"
-            placeholder="Szukaj w Google..."
+            placeholder="Szukaj w Google lub wpisz nazwę kafelka…"
+            aria-label="Szukaj"
+            aria-describedby="search-hint"
             autocomplete="off"
           />
+          <!-- Nazwa serwisu, gdy wpisano prefiks, np. "yt " -->
+          <span class="search-engine" id="search-engine" hidden></span>
         </form>
+        <!-- Podpowiedź widoczna tylko podczas pisania -->
+        <div class="search-hint" id="search-hint">
+          <span><kbd>/</kbd> wyszukiwarka</span>
+          <span><kbd>Enter</kbd> otwiera podświetlony kafelek</span>
+          <span><kbd>Shift</kbd>+<kbd>Enter</kbd> szuka w Google</span>
+          <span
+            >Prefiksy: <b>yt</b> YouTube · <b>al</b> Allegro · <b>m</b> Mapy ·
+            <b>gh</b> GitHub · <b>w</b> Wikipedia · <b>tl</b> Tłumacz</span
+          >
+        </div>
       </div>
 
       <div class="links-grid">
@@ -290,5 +307,6 @@
     </div>
 
     <script src="js/script.js"></script>
+    <script src="js/search.js"></script>
   </body>
 </html>
