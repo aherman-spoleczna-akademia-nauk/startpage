@@ -20,8 +20,13 @@
   </head>
 
   <body>
-    <!-- Kontener dla efektu Vanta.js -->
-    <div id="vanta-bg"></div>
+    <!-- Tło: animowana zorza -->
+    <div class="aurora" aria-hidden="true">
+      <div class="aurora-blob aurora-blob--1"></div>
+      <div class="aurora-blob aurora-blob--2"></div>
+      <div class="aurora-blob aurora-blob--3"></div>
+      <div class="aurora-blob aurora-blob--4"></div>
+    </div>
 
     <div class="container">
       <header class="header-section">
@@ -60,6 +65,16 @@
       </div>
 
       <div class="links-grid">
+        <!-- Lena -->
+        <a
+          href="https://vk.ru/im/convo/248805354?entrypoint=list_all"
+          class="link-card link-card--featured"
+          target="_blank"
+        >
+          <div class="letters">LE</div>
+          <span class="name">Lena</span>
+        </a>
+
         <!-- R -->
         <a href="https://r.pl/" class="link-card" target="_blank">
           <div class="letters">RT</div>
@@ -197,14 +212,39 @@
           <div class="letters">PL</div>
           <span class="name">Plus</span>
         </a>
+
+        <!-- Onet -->
+        <a href="https://www.onet.pl/" class="link-card" target="_blank">
+          <div class="letters">ON</div>
+          <span class="name">Onet</span>
+        </a>
+
+        <!-- Pobieracz -->
+        <a href="https://app.ytdown.to/pl34/" class="link-card" target="_blank">
+          <div class="letters">PB</div>
+          <span class="name">Pobieracz</span>
+        </a>
+
+        <!-- Flashscore -->
+        <a href="https://www.flashscore.pl/" class="link-card" target="_blank">
+          <div class="letters">FS</div>
+          <span class="name">Flashscore</span>
+        </a>
+
+        <!-- Orange -->
+        <a
+          href="https://www.orange.pl/twojekonto/"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">OR</div>
+          <span class="name">Orange</span>
+        </a>
       </div>
 
       <div class="footer">Andrzej Herman @ Strona startowa</div>
     </div>
 
-    <!-- VANTA.JS NET EFFECT -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>

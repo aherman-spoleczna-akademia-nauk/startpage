@@ -1,15 +1,18 @@
 :root {
-  --bg-color: #0f0f13;
-  --card-bg: rgba(30, 30, 40, 0.6);
-  --card-border: rgba(255, 255, 255, 0.1);
+  --bg-color: #07070b;
+  /* Kafelki jaśniejsze od tła – "unoszą się" nad nim */
+  --card-bg: rgba(34, 34, 54, 0.82);
+  --card-border: rgba(255, 255, 255, 0.22);
   --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
+  --text-secondary: #c8c8d4;
   --accent-color: #6366f1;
   /* Indigo */
   --accent-glow: rgba(99, 102, 241, 0.4);
   --font-main: "Inter", sans-serif;
   /* Zdefiniowanie głębszego cienia dla efektu 'pop-out' */
-  --card-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.45);
+  --card-shadow:
+    0 15px 35px 0 rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 * {
@@ -20,18 +23,6 @@
 
 body {
   background-color: var(--bg-color);
-  /* Gradient jest teraz widoczny pod efektem Vanta.js dzięki backgroundAlpha: 0 */
-  background-image:
-    radial-gradient(
-      circle at 10% 20%,
-      rgba(99, 102, 241, 0.15) 0%,
-      transparent 20%
-    ),
-    radial-gradient(
-      circle at 90% 80%,
-      rgba(236, 72, 153, 0.15) 0%,
-      transparent 20%
-    );
   color: var(--text-primary);
   font-family: var(--font-main);
   min-height: 100vh;
@@ -43,17 +34,104 @@ body {
   overflow-x: hidden;
 }
 
-/* Kontener tła dla efektu Vanta.js */
-#vanta-bg {
+/* --- TŁO: ZORZA --- */
+/* Duże, mocno rozmyte plamy koloru, które powoli przepływają w tle */
+.aurora {
   position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  inset: 0;
   z-index: -1;
-  /* Pod spodem */
+  overflow: hidden;
   pointer-events: none;
-  /* Nie blokuje kliknięć */
+  background: var(--bg-color);
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.aurora-blob--1 {
+  width: 55vmax;
+  height: 55vmax;
+  top: -15vmax;
+  left: -10vmax;
+  background: #6366f1; /* Indygo */
+  animation: auroraDrift1 26s ease-in-out infinite alternate;
+}
+
+.aurora-blob--2 {
+  width: 50vmax;
+  height: 50vmax;
+  bottom: -20vmax;
+  right: -10vmax;
+  background: #ec4899; /* Róż */
+  animation: auroraDrift2 32s ease-in-out infinite alternate;
+}
+
+.aurora-blob--3 {
+  width: 35vmax;
+  height: 35vmax;
+  top: 10%;
+  right: 15%;
+  background: #f97316; /* Pomarańcz */
+  opacity: 0.35;
+  animation: auroraDrift3 22s ease-in-out infinite alternate;
+}
+
+.aurora-blob--4 {
+  width: 40vmax;
+  height: 40vmax;
+  bottom: -10vmax;
+  left: 10%;
+  background: #8b5cf6; /* Fiolet */
+  opacity: 0.45;
+  animation: auroraDrift4 28s ease-in-out infinite alternate;
+}
+
+/* Delikatne przyciemnienie od góry i dołu – zawartość lepiej się odcina */
+.aurora::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(7, 7, 11, 0.35) 0%,
+    rgba(7, 7, 11, 0.65) 100%
+  );
+}
+
+@keyframes auroraDrift1 {
+  to {
+    transform: translate(25vw, 20vh) scale(1.15);
+  }
+}
+
+@keyframes auroraDrift2 {
+  to {
+    transform: translate(-30vw, -25vh) scale(0.9);
+  }
+}
+
+@keyframes auroraDrift3 {
+  to {
+    transform: translate(-35vw, 30vh) scale(1.25);
+  }
+}
+
+@keyframes auroraDrift4 {
+  to {
+    transform: translate(30vw, -35vh) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob {
+    animation: none;
+  }
 }
 
 .container {
@@ -111,7 +189,7 @@ body {
 
 .weather-widget {
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   padding: 15px 25px;
   border-radius: 20px;
@@ -164,7 +242,7 @@ body {
   padding: 18px 25px;
   border-radius: 15px;
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   color: white;
   font-size: 1.1rem;
@@ -187,7 +265,7 @@ body {
 }
 
 .search-bar:focus {
-  background: rgba(40, 40, 55, 0.8);
+  background: rgba(46, 46, 72, 0.92);
   border-color: var(--accent-color);
   box-shadow: 0 0 25px var(--accent-glow);
 }
@@ -201,7 +279,7 @@ body {
 
 .link-card {
   background: var(--card-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   border-radius: 16px;
   aspect-ratio: 1/1;
@@ -302,6 +380,64 @@ body {
 .link-card .name {
   font-size: 12px !important;
   font-weight: 700;
+}
+
+/* --- WYRÓŻNIONY KAFELEK (Lena) --- */
+.link-card--featured {
+  background:
+    linear-gradient(145deg, rgba(236, 72, 153, 0.35), rgba(249, 115, 22, 0.25)),
+    var(--card-bg);
+  border: 2px solid #ec4899;
+  animation: featuredPulse 2.5s ease-in-out infinite;
+}
+
+.link-card--featured::before {
+  background: radial-gradient(
+    circle at center,
+    rgba(236, 72, 153, 0.55),
+    transparent 70%
+  );
+}
+
+.link-card--featured .letters {
+  border-color: transparent;
+  background: linear-gradient(135deg, #ec4899, #f97316);
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(236, 72, 153, 0.7);
+  transition: transform 0.3s ease;
+}
+
+.link-card--featured span {
+  color: #fbcfe8;
+}
+
+.link-card--featured:hover {
+  border-color: #f97316;
+  animation: none;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.6),
+    0 0 35px rgba(236, 72, 153, 0.8);
+}
+
+@keyframes featuredPulse {
+  0%,
+  100% {
+    box-shadow:
+      var(--card-shadow),
+      0 0 12px rgba(236, 72, 153, 0.45);
+  }
+
+  50% {
+    box-shadow:
+      var(--card-shadow),
+      0 0 28px rgba(236, 72, 153, 0.85);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-card--featured {
+    animation: none;
+  }
 }
 
 .footer {

@@ -21,7 +21,7 @@ Prosta strona startowa przeglądarki w ciemnym stylu, z zegarem, pogodą, wyszuk
 - 🌤️ **Pogoda** – aktualna temperatura i opis z [Open-Meteo](https://open-meteo.com/). Nie wymaga klucza API i odświeża się co 30 minut.
 - 🔍 **Wyszukiwarka Google** – zapytanie otwiera się w nowej karcie.
 - 🔗 **Kafelki z linkami** – siatka skrótów, która dopasowuje się do szerokości ekranu.
-- ✨ **Animowane tło** – efekt sieci [Vanta.js](https://www.vantajs.com/) (NET) reagujący na ruch myszy.
+- ✨ **Animowane tło** – „zorza” z rozmytych, powoli przepływających plam koloru, w czystym CSS (bez WebGL).
 - 📱 **Responsywność** – układ działa na telefonie, tablecie i komputerze.
 
 ## Struktura projektu
@@ -32,7 +32,7 @@ startpage/
 ├── css/
 │   └── style.css   # Wygląd, kolory, animacje, responsywność
 ├── js/
-│   └── script.js   # Zegar, pogoda, inicjalizacja Vanta.js
+│   └── script.js   # Zegar i pogoda
 └── img/
     └── icon.png    # Favicon
 ```
@@ -92,7 +92,9 @@ Główne kolory są zdefiniowane jako zmienne CSS na początku `css/style.css`:
 }
 ```
 
-Kolor siatki w tle ustawia się w `js/script.js`, w opcji `color` wywołania `VANTA.NET(...)`.
+Kolory, rozmiary i tempo zorzy w tle ustawia się w `css/style.css`, w klasach `.aurora-blob--1` … `--4` i animacjach `auroraDrift1` … `4`.
+
+Kafelek można wyróżnić, dodając mu klasę `link-card--featured`.
 
 ### Powitanie
 
@@ -104,7 +106,6 @@ Tekst powitania zmienisz w `index.html`, w elementach `<title>` i `.greeting`.
 | --- | --- |
 | [Font Awesome 6](https://fontawesome.com/) | Ikony (wyszukiwarka, pogoda) |
 | [Inter](https://fonts.google.com/specimen/Inter) | Czcionka |
-| [three.js r134](https://threejs.org/) + [Vanta.js 0.5.24](https://www.vantajs.com/) | Animowane tło |
 | [Open-Meteo API](https://open-meteo.com/) | Dane pogodowe |
 
 Wszystkie są ładowane z CDN, więc nie trzeba ich instalować.
