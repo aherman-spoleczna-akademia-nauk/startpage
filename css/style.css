@@ -50,12 +50,15 @@
   --accent-glow: rgba(99, 102, 241, 0.18);
   --icon-color: #5b5fe0;
   --icon-color-hover: #312e81;
+  /* Cień w odcieniu indygo – na jasnym tle szary cień byłby niewidoczny */
   --card-shadow:
-    0 10px 30px rgba(30, 27, 75, 0.1),
+    0 18px 40px rgba(67, 56, 202, 0.2),
+    0 4px 12px rgba(30, 27, 75, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
   --card-shadow-hover:
-    0 20px 40px rgba(30, 27, 75, 0.16),
-    0 0 20px rgba(99, 102, 241, 0.2);
+    0 28px 55px rgba(67, 56, 202, 0.3),
+    0 8px 18px rgba(30, 27, 75, 0.12),
+    0 0 24px rgba(99, 102, 241, 0.25);
   --text-hover: #1e1b4b;
   --text-muted: rgba(30, 27, 75, 0.45);
   --search-focus-bg: rgba(255, 255, 255, 0.95);
@@ -101,8 +104,16 @@
   background: #ddd6fe;
 }
 
+/* Plama za kursorem jest mocniejsza od tła, żeby było ją widać */
 :root[data-theme="light"] .aurora-blob--cursor {
-  background: linear-gradient(135deg, #c7d2fe, #fbcfe8);
+  width: 34vmax;
+  height: 34vmax;
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  mix-blend-mode: normal;
+}
+
+:root[data-theme="light"] .aurora-blob--cursor.is-active {
+  opacity: 0.45;
 }
 
 :root[data-theme="light"] .aurora::after {
@@ -678,7 +689,6 @@ button.weather-widget {
 .si-gmail { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/gmail.svg"); }
 .si-googlemaps { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/googlemaps.svg"); }
 .si-googledrive { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/googledrive.svg"); }
-.si-hetzner { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/hetzner.svg"); }
 .si-cloudflare { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/cloudflare.svg"); }
 .si-github { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/github.svg"); }
 .si-netflix { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/netflix.svg"); }
