@@ -1,0 +1,359 @@
+:root {
+  --bg-color: #0f0f13;
+  --card-bg: rgba(30, 30, 40, 0.6);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --accent-color: #6366f1;
+  /* Indigo */
+  --accent-glow: rgba(99, 102, 241, 0.4);
+  --font-main: "Inter", sans-serif;
+  /* Zdefiniowanie głębszego cienia dla efektu 'pop-out' */
+  --card-shadow: 0 15px 35px 0 rgba(0, 0, 0, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  /* Gradient jest teraz widoczny pod efektem Vanta.js dzięki backgroundAlpha: 0 */
+  background-image:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(99, 102, 241, 0.15) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(236, 72, 153, 0.15) 0%,
+      transparent 20%
+    );
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Kontener tła dla efektu Vanta.js */
+#vanta-bg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* Pod spodem */
+  pointer-events: none;
+  /* Nie blokuje kliknięć */
+}
+
+.container {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  animation: fadeIn 1s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+/* --- HEADER --- */
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.time-widget {
+  display: flex;
+  flex-direction: column;
+}
+
+.clock {
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+  background: linear-gradient(to right, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.date {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  margin-top: 5px;
+  font-weight: 300;
+}
+
+.greeting {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  background: linear-gradient(90deg, var(--accent-color), #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.weather-widget {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  padding: 15px 25px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 200px;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Dodano cień */
+  box-shadow: var(--card-shadow);
+}
+
+.weather-widget:hover {
+  transform: translateY(-5px);
+  /* Mocniejsze uniesienie */
+  border-color: var(--accent-color);
+  box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
+  /* Znacznie głębszy cień */
+}
+
+.weather-icon {
+  font-size: 2.5rem;
+  color: var(--accent-color);
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.temperature {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.weather-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: capitalize;
+}
+
+/* --- SEARCH --- */
+.search-container {
+  width: 100%;
+  position: relative;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 18px 25px;
+  border-radius: 15px;
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  color: white;
+  font-size: 1.1rem;
+  font-family: var(--font-main);
+  outline: none;
+  transition: all 0.3s ease;
+  padding-left: 55px;
+  /* Dodano cień */
+  box-shadow: var(--card-shadow);
+}
+
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.search-bar:focus {
+  background: rgba(40, 40, 55, 0.8);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 25px var(--accent-glow);
+}
+
+/* --- LINKS GRID --- */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 15px;
+}
+
+.link-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  aspect-ratio: 1/1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Bardziej sprężysta animacja */
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  /* Dodano cień */
+  box-shadow: var(--card-shadow);
+}
+
+.link-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    var(--accent-glow),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.link-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  /* Wyższe uniesienie */
+  border-color: var(--accent-color);
+  /* Bardzo głęboki cień i poświata przy najechaniu */
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.link-card:hover::before {
+  opacity: 1;
+}
+
+.link-card span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 1;
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.link-card:hover span {
+  color: white;
+}
+
+.link-card .card-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transition: transform 0.3s ease;
+}
+
+.link-card:hover .card-logo {
+  transform: scale(1.1);
+}
+
+.link-card .letters {
+  height: 44px;
+  max-height: 44px;
+  min-height: 44px;
+  width: 44px;
+  max-width: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #6b64ec;
+  border-radius: 50%;
+  color: #6b64ec;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.link-card:hover .letters {
+  transform: scale(1.1);
+}
+
+.link-card .name {
+  font-size: 12px !important;
+  font-weight: 700;
+}
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  width: 100%;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-section {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .clock {
+    font-size: 3.5rem;
+  }
+
+  .weather-widget {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .links-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .links-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .container {
+    gap: 25px;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

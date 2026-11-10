@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cześć Andrzej !</title>
+    <link rel="icon" type="image/png" href="img/icon.png" />
+    <!-- Ikony -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Czcionka -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- Kontener dla efektu Vanta.js -->
+    <div id="vanta-bg"></div>
+
+    <div class="container">
+      <header class="header-section">
+        <div class="time-widget">
+          <div class="greeting">Cześć Andrzej !</div>
+          <div class="clock" id="clock">00:00</div>
+          <div class="date" id="date">Ładowanie daty...</div>
+        </div>
+
+        <div class="weather-widget" id="weather-widget">
+          <i class="fas fa-spinner fa-spin weather-icon" id="weather-icon"></i>
+          <div class="weather-info">
+            <span class="temperature" id="temp">--°C</span>
+            <span class="weather-desc" id="weather-desc"
+              >Pobieranie pogody...</span
+            >
+          </div>
+        </div>
+      </header>
+
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <form
+          action="https://www.google.com/search"
+          method="get"
+          target="_blank"
+        >
+          <input
+            type="text"
+            name="q"
+            class="search-bar"
+            placeholder="Szukaj w Google..."
+            autocomplete="off"
+          />
+        </form>
+      </div>
+
+      <div class="links-grid">
+        <!-- R -->
+        <a href="https://r.pl/" class="link-card" target="_blank">
+          <div class="letters">RT</div>
+          <span class="name">Rainbow</span>
+        </a>
+
+        <!-- Gemini -->
+        <a href="https://gemini.google.com" class="link-card" target="_blank">
+          <div class="letters">GE</div>
+          <span class="name">Gemini</span>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://youtube.com" class="link-card" target="_blank">
+          <div class="letters">YT</div>
+          <span class="name">YouTube</span>
+        </a>
+
+        <!-- Gmail -->
+        <a href="https://mail.google.com" class="link-card" target="_blank">
+          <div class="letters">GM</div>
+          <span class="name">Gmail</span>
+        </a>
+
+        <!-- Mapy -->
+        <a href="https://maps.google.com" class="link-card" target="_blank">
+          <div class="letters">MA</div>
+          <span class="name">Mapy</span>
+        </a>
+
+        <!-- Google Drive -->
+        <a href="https://drive.google.com/" class="link-card" target="_blank">
+          <div class="letters">GD</div>
+          <span class="name">Google Drive</span>
+        </a>
+
+        <!-- Hetzner -->
+        <a
+          href="https://console.hetzner.com/projects/15929523/dashboard"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">HT</div>
+          <span class="name">Hetzner</span>
+        </a>
+
+        <!-- Cloudflare -->
+        <a href="https://dash.cloudflare.com/" class="link-card" target="_blank">
+          <div class="letters">CF</div>
+          <span class="name">Cloudflare</span>
+        </a>
+
+        <!-- Home.pl -->
+        <a href="https://home.pl" class="link-card" target="_blank">
+          <div class="letters">HO</div>
+          <span class="name">Home.pl</span>
+        </a>
+
+        <!-- GitHub -->
+        <a href="https://github.com" class="link-card" target="_blank">
+          <div class="letters">GH</div>
+          <span class="name">GitHub</span>
+        </a>
+
+        <!-- Netflix -->
+        <a href="https://netflix.com" class="link-card" target="_blank">
+          <div class="letters">NT</div>
+          <span class="name">Netflix</span>
+        </a>
+
+        <!-- Canal + -->
+        <a
+          href="https://www.canalplus.com/pl/"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">CP</div>
+          <span class="name">Canal Plus</span>
+        </a>
+
+        <!-- Prime -->
+        <a href="https://www.primevideo.com/" class="link-card" target="_blank">
+          <div class="letters">PR</div>
+          <span class="name">Prime Video</span>
+        </a>
+
+        <!-- SkyShowtime -->
+        <a href="https://www.skyshowtime.com/" class="link-card" target="_blank">
+          <div class="letters">SK</div>
+          <span class="name">Skyshowtime</span>
+        </a>
+
+        <!-- SAN -->
+        <a
+          href="https://dziekanat.spoleczna.pl/"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">WD</div>
+          <span class="name">Dziekanat</span>
+        </a>
+
+        <!-- Plan zajęć -->
+        <a
+          href="https://plan-zajec.aherman.pl/"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">PZ</div>
+          <span class="name">Plan zajęć</span>
+        </a>
+
+        <!-- Azure -->
+        <a
+          href="https://portal.azure.com/#home"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">AZ</div>
+          <span class="name">Azure</span>
+        </a>
+
+        <!-- Allegro -->
+        <a href="https://allegro.pl" class="link-card" target="_blank">
+          <div class="letters">AL</div>
+          <span class="name">Allegro</span>
+        </a>
+
+        <!-- Plus -->
+        <a
+          href="https://ssl.plusgsm.pl/ebok-web/basic/loginStep1.action?brandId=Postpaid"
+          class="link-card"
+          target="_blank"
+        >
+          <div class="letters">PL</div>
+          <span class="name">Plus</span>
+        </a>
+      </div>
+
+      <div class="footer">Andrzej Herman @ Strona startowa</div>
+    </div>
+
+    <!-- VANTA.JS NET EFFECT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
