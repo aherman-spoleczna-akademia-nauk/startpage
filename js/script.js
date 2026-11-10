@@ -45,6 +45,11 @@ function updateTime() {
     dateString.charAt(0).toUpperCase() + dateString.slice(1);
 
   updateTimeZoneLabel(now, timeZone);
+
+  // Bieżący rok w stopce (zmienia się sam w Sylwestra o północy)
+  const year = now.toLocaleDateString("pl-PL", { year: "numeric", timeZone });
+  const yearEl = document.getElementById("footer-year");
+  if (yearEl.textContent !== year) yearEl.textContent = year;
 }
 
 /* Podpis strefy czasowej pod zegarem, np. "Stambuł (Turcja) · GMT+3".

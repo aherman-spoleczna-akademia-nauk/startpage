@@ -302,14 +302,24 @@ body {
   font-family: var(--font-display);
   /* Cyfry o stałej szerokości – godzina nie "skacze" przy zmianie minut */
   font-variant-numeric: tabular-nums;
-  font-size: 7rem;
+  font-size: 6rem;
   font-weight: 700;
-  letter-spacing: -3px;
+  letter-spacing: -2.5px;
   line-height: 1;
   background: var(--clock-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: var(--clock-shadow);
+}
+
+/* Mały, dyskretny podpis nad zegarem */
+.site-label {
+  margin-bottom: 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--text-muted);
 }
 
 /* Subtelna nazwa strefy czasowej pod zegarem */
@@ -906,7 +916,7 @@ button.weather-widget {
   }
 
   .clock {
-    font-size: 4.5rem;
+    font-size: 4rem;
   }
 
   .weather-widget {
