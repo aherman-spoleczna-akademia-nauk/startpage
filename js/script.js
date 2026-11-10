@@ -24,15 +24,18 @@ function updateGreeting(hour) {
 /* Strefa czasowa lokalizacji (np. "Europe/Moscow"), ustawiana po pobraniu pogody.
    undefined = strefa czasowa systemu. */
 let displayTimeZone;
+/* Nazwa miejscowości pokazywana pod zegarem zamiast nazwy strefy (np. "Stambuł") */
+let displayPlaceName;
 
-function setDisplayTimeZone(timeZone) {
-  if (timeZone === displayTimeZone) return;
+function setDisplayTimeZone(timeZone, placeName) {
+  if (timeZone === displayTimeZone && placeName === displayPlaceName) return;
   try {
     new Intl.DateTimeFormat("pl-PL", { timeZone }); // sprawdzenie poprawności strefy
   } catch {
     return; // Nieznana strefa – zostaje czas systemowy
   }
   displayTimeZone = timeZone;
+  displayPlaceName = placeName || undefined;
   updateTime();
 }
 
@@ -66,7 +69,8 @@ function updateTime() {
   updateTimeZoneLabel(now, timeZone);
 }
 
-/* Nazwa strefy czasowej pod zegarem, np. "czas środkowoeuropejski · GMT+1" */
+/* Podpis strefy czasowej pod zegarem, np. "Stambuł · GMT+3".
+   Bez znanej miejscowości – nazwa strefy z przeglądarki, np. "czas środkowoeuropejski · GMT+1" */
 function timeZonePart(now, timeZone, style) {
   return new Intl.DateTimeFormat("pl-PL", { timeZone, timeZoneName: style })
     .formatToParts(now)
@@ -74,7 +78,9 @@ function timeZonePart(now, timeZone, style) {
 }
 
 function updateTimeZoneLabel(now, timeZone) {
-  const name = timeZonePart(now, timeZone, "longGeneric");
+  const name =
+    (timeZone && displayPlaceName) ||
+    timeZonePart(now, timeZone, "longGeneric");
   const offset = timeZonePart(now, timeZone, "shortOffset");
   const text = [name, offset].filter(Boolean).join(" · ");
   const el = document.getElementById("timezone");
@@ -295,7 +301,7 @@ async function setLocation(location) {
   renderLocation(location);
   // Zapamiętana strefa czasowa – zegar od razu w czasie lokalizacji
   if (!location.isDefault && location.timeZone)
-    setDisplayTimeZone(location.timeZone);
+    setDisplayTimeZone(location.timeZone, location.name);
   await fetchWeather();
 }
 
@@ -344,7 +350,7 @@ async function fetchWeather() {
 
     // Zegar w strefie czasowej lokalizacji (przy lokalizacji domyślnej – czas systemu)
     if (!currentLocation.isDefault && data.timezone) {
-      setDisplayTimeZone(data.timezone);
+      setDisplayTimeZone(data.timezone, currentLocation.name);
       if (currentLocation.timeZone !== data.timezone) {
         currentLocation.timeZone = data.timezone;
         saveLocation(currentLocation);
