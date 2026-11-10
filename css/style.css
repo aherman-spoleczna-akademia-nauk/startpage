@@ -784,6 +784,38 @@ button.weather-widget {
   transition: transform 0.3s ease;
 }
 
+/* Serce w gradiencie z poświatą i delikatnym "biciem" */
+.link-card--featured .card-icon,
+.link-card--featured:hover .card-icon {
+  font-size: 32px;
+  background: linear-gradient(135deg, #ec4899, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.7));
+  animation: heartBeat 1.6s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+  0%,
+  40%,
+  100% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1.15);
+  }
+
+  25% {
+    transform: scale(1.05);
+  }
+
+  32% {
+    transform: scale(1.18);
+  }
+}
+
 .link-card--featured span,
 .link-card--featured:hover span {
   color: var(--featured-text);
@@ -813,7 +845,8 @@ button.weather-widget {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .link-card--featured {
+  .link-card--featured,
+  .link-card--featured .card-icon {
     animation: none;
   }
 }
