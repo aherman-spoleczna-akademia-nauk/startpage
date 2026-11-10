@@ -1,7 +1,12 @@
 const NAME = "Andrzej";
 
 /* Lokalizacja zapasowa, gdy przeglądarka nie poda swojej (brak zgody lub błąd) */
-const DEFAULT_LOCATION = { lat: 51.75, lon: 19.47, name: "Łódź" };
+const DEFAULT_LOCATION = {
+  lat: 51.75,
+  lon: 19.47,
+  name: "Łódź",
+  country: "Polska",
+};
 
 /* --- POWITANIE ZALEŻNE OD PORY DNIA --- */
 function getGreeting(hour) {
@@ -69,7 +74,7 @@ function updateTime() {
   updateTimeZoneLabel(now, timeZone);
 }
 
-/* Podpis strefy czasowej pod zegarem, np. "Stambuł · GMT+3".
+/* Podpis strefy czasowej pod zegarem, np. "Stambuł (Turcja) · GMT+3".
    Bez znanej miejscowości – nazwa strefy z przeglądarki, np. "czas środkowoeuropejski · GMT+1" */
 function timeZonePart(now, timeZone, style) {
   return new Intl.DateTimeFormat("pl-PL", { timeZone, timeZoneName: style })
@@ -260,30 +265,46 @@ function requestPosition() {
   });
 }
 
-// Zamienia współrzędne na nazwę miejscowości (po polsku)
-async function lookupPlaceName(lat, lon) {
+// Zamienia współrzędne na nazwę miejscowości i kraju (po polsku)
+async function lookupPlace(lat, lon) {
   try {
     const response = await fetch(
       `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pl`,
     );
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    return data.city || data.locality || data.principalSubdivision || null;
+    return {
+      name: data.city || data.locality || data.principalSubdivision || null,
+      country: data.countryName || null,
+    };
   } catch (error) {
     console.error("Błąd pobierania nazwy lokalizacji:", error);
-    return null;
+    return { name: null, country: null };
   }
+}
+
+// Podpis pod zegarem, np. "Tequila (Meksyk)"; bez nazwy miejscowości – undefined
+function placeLabel(location) {
+  if (!location.name) return undefined;
+  return location.country
+    ? `${location.name} (${location.country})`
+    : location.name;
+}
+
+// Podpis pod pogodą, np. "Tequila (Meksyk)" albo "Łódź (Polska, domyślnie)"
+function formatLocationLabel(location) {
+  const name = location.name || "Twoja lokalizacja";
+  const extra = [location.country, location.isDefault && "domyślnie"]
+    .filter(Boolean)
+    .join(", ");
+  return extra ? `${name} (${extra})` : name;
 }
 
 function renderLocation(location) {
   const container = document.getElementById("weather-location");
-  const name = location.name || "Twoja lokalizacja";
   const icon = el("i", "fas fa-location-dot");
   icon.setAttribute("aria-hidden", "true");
-  container.replaceChildren(
-    icon,
-    location.isDefault ? `${name} (domyślnie)` : name,
-  );
+  container.replaceChildren(icon, formatLocationLabel(location));
   container.title = location.isDefault
     ? "Brak dostępu do lokalizacji – pokazuję pogodę domyślną"
     : "Pogoda dla Twojej lokalizacji";
@@ -301,7 +322,7 @@ async function setLocation(location) {
   renderLocation(location);
   // Zapamiętana strefa czasowa – zegar od razu w czasie lokalizacji
   if (!location.isDefault && location.timeZone)
-    setDisplayTimeZone(location.timeZone, location.name);
+    setDisplayTimeZone(location.timeZone, placeLabel(location));
   await fetchWeather();
 }
 
@@ -318,10 +339,21 @@ async function initLocation() {
     return;
   }
 
-  if (!hasMoved(saved, position)) return;
+  if (!hasMoved(saved, position)) {
+    // Lokalizacja zapisana przed dodaniem kraju – uzupełnij sam podpis
+    if (!("country" in saved)) {
+      const place = await lookupPlace(saved.lat, saved.lon);
+      saved.country = place.country;
+      if (place.name) saved.name = place.name;
+      saveLocation(saved);
+      renderLocation(saved);
+      if (saved.timeZone) setDisplayTimeZone(saved.timeZone, placeLabel(saved));
+    }
+    return;
+  }
 
-  const name = await lookupPlaceName(position.lat, position.lon);
-  const location = { ...position, name };
+  const place = await lookupPlace(position.lat, position.lon);
+  const location = { ...position, ...place };
   saveLocation(location);
   setLocation(location);
 }
@@ -350,7 +382,7 @@ async function fetchWeather() {
 
     // Zegar w strefie czasowej lokalizacji (przy lokalizacji domyślnej – czas systemu)
     if (!currentLocation.isDefault && data.timezone) {
-      setDisplayTimeZone(data.timezone, currentLocation.name);
+      setDisplayTimeZone(data.timezone, placeLabel(currentLocation));
       if (currentLocation.timeZone !== data.timezone) {
         currentLocation.timeZone = data.timezone;
         saveLocation(currentLocation);
