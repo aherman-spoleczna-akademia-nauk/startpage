@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -m 10 -D - \"https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=51.75&longitude=19.47&localityLanguage=pl\" -o -)",
+      "Bash(curl -s -m 10 \"https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=52.23&longitude=21.01&localityLanguage=pl\")",
+      "mcp__plugin_ecc_chrome-devtools__emulate",
+      "mcp__plugin_ecc_chrome-devtools__navigate_page"
+    ]
+  }
+}

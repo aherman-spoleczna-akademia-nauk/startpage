@@ -540,6 +540,24 @@ button.weather-widget {
   text-transform: capitalize;
 }
 
+/* Dyskretna nazwa lokalizacji pod opisem pogody */
+.weather-location {
+  margin-top: 3px;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.weather-location:empty {
+  display: none;
+}
+
+.weather-location i {
+  margin-right: 5px;
+  color: var(--accent-color);
+  opacity: 0.8;
+}
+
 /* --- SEARCH --- */
 .search-container {
   width: 100%;

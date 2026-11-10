@@ -19,7 +19,7 @@ Prosta strona startowa przeglądarki w ciemnym stylu, z zegarem, pogodą, wyszuk
 
 - 👋 **Powitanie zależne od pory dnia** – „Dzień dobry”, „Miłego popołudnia”, „Dobry wieczór” albo „Dobrej nocy”.
 - 🕒 **Zegar i data** – aktualizowane co sekundę, w formacie polskim (`pl-PL`).
-- 🌤️ **Pogoda** – aktualna temperatura z [Open-Meteo](https://open-meteo.com/). Po kliknięciu rozwija się panel z temperaturą odczuwalną, wilgotnością, wiatrem, wschodem i zachodem słońca, prognozą na 12 godzin i na 4 dni. Nie wymaga klucza API i odświeża się co 30 minut.
+- 🌤️ **Pogoda** – aktualna temperatura z [Open-Meteo](https://open-meteo.com/) dla Twojej lokalizacji, której nazwa wyświetla się pod opisem pogody. Bez zgody na lokalizację pokazuje pogodę dla Łodzi. Po kliknięciu rozwija się panel z temperaturą odczuwalną, wilgotnością, wiatrem, wschodem i zachodem słońca, prognozą na 12 godzin i na 4 dni. Nie wymaga klucza API i odświeża się co 30 minut.
 - 🔍 **Wyszukiwarka Google** – zapytanie otwiera się w nowej karcie.
 - 🔗 **Kafelki z linkami** – siatka skrótów z jednokolorowymi ikonami: logo marek z [Simple Icons](https://simpleicons.org/) albo pasujące ikony z Font Awesome.
 - ✨ **Animowane tło** – „zorza” z rozmytych, powoli przepływających plam koloru, w czystym CSS (bez WebGL). Jedna plama powoli podąża za kursorem.
@@ -79,14 +79,13 @@ Ikonę wybierasz na dwa sposoby:
 
 Kolor wszystkich ikon ustawiają zmienne `--icon-color` i `--icon-color-hover` w `css/style.css`. Wyróżniony kafelek (`link-card--featured`) zamiast ikony ma dwuliterowy skrót `<div class="letters">XX</div>`.
 
-### Imię i lokalizacja pogody
+### Imię i lokalizacja zapasowa
 
-Na początku `js/script.js` zmień imię w powitaniu oraz współrzędne pogody (domyślnie Łódź):
+Pogoda pobiera się dla Twojej lokalizacji (przeglądarka zapyta o zgodę przy pierwszym wejściu). Na początku `js/script.js` możesz zmienić imię w powitaniu oraz lokalizację zapasową, używaną bez zgody na lokalizację:
 
 ```js
 const NAME = "Andrzej";
-const WEATHER_LAT = 51.75;
-const WEATHER_LON = 19.4667;
+const DEFAULT_LOCATION = { lat: 51.75, lon: 19.47, name: "Łódź" };
 ```
 
 ### Kolory
@@ -118,6 +117,7 @@ Tekst powitania zmienisz w `index.html`, w elementach `<title>` i `.greeting`.
 | [Font Awesome 6](https://fontawesome.com/) | Ikony (wyszukiwarka, pogoda) |
 | [Inter](https://fonts.google.com/specimen/Inter) | Czcionka |
 | [Open-Meteo API](https://open-meteo.com/) | Dane pogodowe |
+| [BigDataCloud](https://www.bigdatacloud.com/free-api/free-reverse-geocode-to-city-api) | Nazwa miejscowości ze współrzędnych |
 | [Simple Icons 16.30.0](https://simpleicons.org/) | Logo marek w kafelkach |
 
 Wszystkie są ładowane z CDN lub pobierane z darmowych API bez klucza, więc nie trzeba niczego instalować.

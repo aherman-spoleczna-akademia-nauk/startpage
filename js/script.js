@@ -1,8 +1,7 @@
 const NAME = "Andrzej";
 
-/* Lokalizacja pogody (domyślnie Łódź) */
-const WEATHER_LAT = 51.75;
-const WEATHER_LON = 19.4667;
+/* Lokalizacja zapasowa, gdy przeglądarka nie poda swojej (brak zgody lub błąd) */
+const DEFAULT_LOCATION = { lat: 51.75, lon: 19.47, name: "Łódź" };
 
 /* --- POWITANIE ZALEŻNE OD PORY DNIA --- */
 function getGreeting(hour) {
@@ -174,18 +173,132 @@ function renderDaily(daily) {
   );
 }
 
+/* --- LOKALIZACJA --- */
+const LOCATION_KEY = "weather-location";
+let currentLocation = null;
+
+// Zaokrąglenie do ~1 km – wystarczy do pogody i nie zdradza dokładnego adresu
+const roundCoord = (value) => Math.round(value * 100) / 100;
+
+function readSavedLocation() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(LOCATION_KEY));
+    if (saved && typeof saved.lat === "number" && typeof saved.lon === "number")
+      return saved;
+  } catch {
+    // Brak zapisanej lokalizacji albo brak dostępu do pamięci
+  }
+  return null;
+}
+
+function saveLocation(location) {
+  try {
+    localStorage.setItem(LOCATION_KEY, JSON.stringify(location));
+  } catch {
+    // Bez zapisu – przy następnym wejściu lokalizacja zostanie pobrana ponownie
+  }
+}
+
+// Pyta przeglądarkę o pozycję; zwraca null, gdy brak zgody lub błąd
+function requestPosition() {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) return resolve(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) =>
+        resolve({
+          lat: roundCoord(pos.coords.latitude),
+          lon: roundCoord(pos.coords.longitude),
+        }),
+      () => resolve(null),
+      { timeout: 15000, maximumAge: 30 * 60 * 1000 },
+    );
+  });
+}
+
+// Zamienia współrzędne na nazwę miejscowości (po polsku)
+async function lookupPlaceName(lat, lon) {
+  try {
+    const response = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=pl`,
+    );
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    return data.city || data.locality || data.principalSubdivision || null;
+  } catch (error) {
+    console.error("Błąd pobierania nazwy lokalizacji:", error);
+    return null;
+  }
+}
+
+function renderLocation(location) {
+  const container = document.getElementById("weather-location");
+  const name = location.name || "Twoja lokalizacja";
+  const icon = el("i", "fas fa-location-dot");
+  icon.setAttribute("aria-hidden", "true");
+  container.replaceChildren(
+    icon,
+    location.isDefault ? `${name} (domyślnie)` : name,
+  );
+  container.title = location.isDefault
+    ? "Brak dostępu do lokalizacji – pokazuję pogodę domyślną"
+    : "Pogoda dla Twojej lokalizacji";
+}
+
+// Czy nowa pozycja różni się od poprzedniej o więcej niż ~5 km
+function hasMoved(a, b) {
+  return (
+    !a || Math.abs(a.lat - b.lat) > 0.05 || Math.abs(a.lon - b.lon) > 0.05
+  );
+}
+
+async function setLocation(location) {
+  currentLocation = location;
+  renderLocation(location);
+  await fetchWeather();
+}
+
+async function initLocation() {
+  const saved = readSavedLocation();
+
+  // Zapamiętana lokalizacja: pogoda od razu, bez czekania na przeglądarkę
+  if (saved) setLocation(saved);
+
+  const position = await requestPosition();
+
+  if (!position) {
+    if (!saved) setLocation({ ...DEFAULT_LOCATION, isDefault: true });
+    return;
+  }
+
+  if (!hasMoved(saved, position)) return;
+
+  const name = await lookupPlaceName(position.lat, position.lon);
+  const location = { ...position, name };
+  saveLocation(location);
+  setLocation(location);
+}
+
+/* --- POBIERANIE POGODY --- */
+let weatherRequestId = 0;
+
 async function fetchWeather() {
+  if (!currentLocation) return;
+  // Odpowiedź na starsze zapytanie (np. dla poprzedniej lokalizacji) jest pomijana
+  const requestId = ++weatherRequestId;
+  const { lat, lon } = currentLocation;
   const url =
-    `https://api.open-meteo.com/v1/forecast?latitude=${WEATHER_LAT}&longitude=${WEATHER_LON}` +
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
     "&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weather_code,is_day" +
     "&hourly=temperature_2m,weather_code,precipitation_probability,is_day" +
     "&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_probability_max" +
-    "&timezone=Europe%2FWarsaw&forecast_days=4";
+    // "auto" – godziny wschodu, zachodu i prognozy w strefie czasowej lokalizacji
+    "&timezone=auto&forecast_days=4";
 
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
+    if (requestId !== weatherRequestId) return;
 
     renderCurrent(data.current);
     renderDetails(data.current, data.daily);
@@ -198,7 +311,7 @@ async function fetchWeather() {
     document.getElementById("weather-desc").textContent = "Błąd pogody";
   }
 }
-fetchWeather();
+initLocation();
 setInterval(fetchWeather, 1800000);
 
 /* Rozwijanie / zwijanie prognozy */
