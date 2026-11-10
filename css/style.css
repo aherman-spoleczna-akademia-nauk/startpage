@@ -11,7 +11,9 @@
   /* Kolor ikon w kafelkach */
   --icon-color: #a5b4fc;
   --icon-color-hover: #ffffff;
-  --font-main: "Inter", sans-serif;
+  --font-main: "Manrope", sans-serif;
+  /* Wyrazista czcionka zegara i powitania */
+  --font-display: "Unbounded", sans-serif;
   /* Zdefiniowanie głębszego cienia dla efektu 'pop-out' */
   --card-shadow:
     0 15px 35px 0 rgba(0, 0, 0, 0.65),
@@ -297,6 +299,9 @@ body {
 }
 
 .clock {
+  font-family: var(--font-display);
+  /* Cyfry o stałej szerokości – godzina nie "skacze" przy zmianie minut */
+  font-variant-numeric: tabular-nums;
   font-size: 5rem;
   font-weight: 700;
   letter-spacing: -2px;
@@ -329,7 +334,8 @@ body {
 }
 
 .greeting {
-  font-size: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
   font-weight: 600;
   margin-bottom: 5px;
   background: linear-gradient(90deg, var(--accent-color), #ec4899);
@@ -814,7 +820,7 @@ button.weather-widget {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 28px;
   text-align: center;
   font-size: 0.85rem;
   color: var(--text-muted);
