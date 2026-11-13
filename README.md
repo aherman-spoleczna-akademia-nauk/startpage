@@ -92,6 +92,8 @@ Ikonę wybierasz na dwa sposoby:
 
 - **Dowolna ikona Font Awesome** – zmień `fa-star` na ikonę z [katalogu Font Awesome](https://fontawesome.com/search?o=r&m=free), np. `fa-solid fa-music` albo `fa-brands fa-spotify`.
 - **Logo marki z Simple Icons** – użyj `<span class="card-icon si-NAZWA" aria-hidden="true"></span>` i dopisz w `css/style.css` regułę `.si-NAZWA { --icon: url("https://cdn.jsdelivr.net/npm/simple-icons@16.30.0/icons/NAZWA.svg"); }`. Nazwy znajdziesz na [simpleicons.org](https://simpleicons.org/).
+- **Własny obrazek w kolorze** – wrzuć plik do `img/` i użyj `<img class="card-icon card-icon--image" src="img/plik.webp" alt="" />`. Najlepiej kwadratowy, z przezroczystym tłem.
+- **Własne logo w kolorze ikon** – tak jak SanStudent: logo zamienione na maskę i osadzone w `css/style.css` jako `data:` w regule `.si-sanstudent` (maska z osobnego pliku nie działa przy stronie otwieranej z dysku). Źródłowe logo jest w `img/logo.webp`.
 
 Kolor wszystkich ikon ustawiają zmienne `--icon-color` i `--icon-color-hover` w `css/style.css`. Wyróżniony kafelek (`link-card--featured`) ma różowo-pomarańczowe kolory, a jego ikona dostaje gradient, poświatę i animację „bicia serca”.
 
